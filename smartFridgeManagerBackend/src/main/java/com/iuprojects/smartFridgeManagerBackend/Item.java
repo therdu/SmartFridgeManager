@@ -1,7 +1,6 @@
 package com.iuprojects.smartFridgeManagerBackend;
 
 import jakarta.persistence.*;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Date;
 
