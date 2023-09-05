@@ -1,7 +1,7 @@
 <template>
     <v-dialog v-model="dialogIsOpen" persistent width="1024">
         <template v-slot:activator="{ props }">
-            <v-btn color="primary" v-bind="props">
+            <v-btn color="green" v-bind="props" class="m-4">
                 Add a new Item
             </v-btn>
         </template>
@@ -13,7 +13,7 @@
                 <v-container>
                     <v-row>
                         <v-col cols="12" sm="6">
-                            <v-combobox v-model="newItem.name" label="Name*" :items="currentItems"></v-combobox>
+                            <v-combobox v-model="newItem.name" label="Name*" :items="currentItemNames"></v-combobox>
                         </v-col>
                         <v-col cols="12" sm="6">
                             <v-text-field v-model="newItem.purchaseDate" label="Purchase Date*" type="date"></v-text-field>
@@ -60,7 +60,7 @@ function addItem() {
     getItems()
 }
 
-const currentItems = ref([])
+const currentItemNames = ref([])
 
 onMounted(() => {
     getItems()
@@ -68,7 +68,7 @@ onMounted(() => {
 
 async function getItems() {
     await axios.get("http://localhost:8080/items")
-        .then(response => { currentItems.value = response.data.map((item: Item) => item.name) })
+        .then(response => { currentItemNames.value = response.data.map((item: Item) => item.name) })
         .catch(error => { console.error("error fetching data: ", error) }
         )
 }

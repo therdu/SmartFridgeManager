@@ -1,17 +1,18 @@
 <template>
-    <h1> Welcome at your SmartFridgeManager! </h1>
-    <Stock />
-    <AddItemForm />
+    <div class="background p-5">
+        <h1> Welcome to your SmartFridgeManager! </h1>
+        <AddItemForm />
+        <Stock />
+    </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import Stock from "./Stock.vue"
 import AddItemForm from "./AddItemForm.vue"
 </script>
 
 <style scoped>
-.flex {
-    display: flex
+.background {
+    background-color: lightblue
 }
 </style>
