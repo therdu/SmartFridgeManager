@@ -12,8 +12,9 @@
                     <td>{{ row.item.raw.name }}</td>
                     <td class="text-right">{{ row.item.raw.purchaseDate == null ? '' : new
                         Date(row.item.raw.purchaseDate).toLocaleDateString() }}</td>
-                    <td class="text-right dueDate">{{ row.item.raw.bestBeforeDate == null ? '' : new
-                        Date(row.item.raw.bestBeforeDate).toLocaleDateString() }}</td>
+                    <td class="text-right" :class="{ expired: isExpired(row.item.raw.bestBeforeDate) }">{{
+                        row.item.raw.bestBeforeDate == null ? '' : new
+                            Date(row.item.raw.bestBeforeDate).toLocaleDateString() }}</td>
                     <td class="text-right">{{ row.item.raw.openingDate == null ? '' : new
                         Date(row.item.raw.openingDate).toLocaleDateString() }}</td>
                     <td class="text-right">
@@ -76,9 +77,13 @@ function closeUpdateDialog() {
     updateDialogIsOpen.value = false
     emit("getItems")
 }
+
+function isExpired(date: string) {
+    return new Date() > new Date(date)
+}
 </script>
 <style scoped>
-.dueDate {
+.expired {
     color: red
 }
 </style>
