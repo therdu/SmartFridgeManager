@@ -43,9 +43,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, PropType, toRefs, defineEmits } from "vue";
 import axios from "axios";
 import type { Item } from "./Item"
+
+const props = defineProps({
+    items: Object as PropType<Item[]>
+})
+
+const { items } = toRefs(props);
+
+const emit = defineEmits()
 
 const dialogIsOpen = ref<boolean>(false)
 
@@ -57,21 +65,10 @@ function addItem() {
     sendItem()
     newItem.value = { name: "", purchaseDate: new Date().toISOString().slice(0, 10), openingDate: null, bestBeforeDate: null }
     dialogIsOpen.value = false
-    getItems()
+    emit('getItems')
 }
 
-const currentItemNames = ref([])
-
-onMounted(() => {
-    getItems()
-})
-
-async function getItems() {
-    await axios.get("http://localhost:8080/items")
-        .then(response => { currentItemNames.value = response.data.map((item: Item) => item.name) })
-        .catch(error => { console.error("error fetching data: ", error) }
-        )
-}
+const currentItemNames = computed(() => { return items.value.map((item: Item) => item.name) })
 
 async function sendItem() {
     await axios.post("http://localhost:8080/items", newItem.value)
