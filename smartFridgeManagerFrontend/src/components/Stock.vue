@@ -10,9 +10,12 @@
             <template v-slot:item="row">
                 <tr>
                     <td>{{ row.item.raw.name }}</td>
-                    <td class="text-right">{{ row.item.raw.purchaseDate }}</td>
-                    <td class="text-right dueDate">{{ row.item.raw.bestBeforeDate }}</td>
-                    <td class="text-right">{{ row.item.raw.openingDate }}</td>
+                    <td class="text-right">{{ row.item.raw.purchaseDate == null ? '' : new
+                        Date(row.item.raw.purchaseDate).toLocaleDateString() }}</td>
+                    <td class="text-right dueDate">{{ row.item.raw.bestBeforeDate == null ? '' : new
+                        Date(row.item.raw.bestBeforeDate).toLocaleDateString() }}</td>
+                    <td class="text-right">{{ row.item.raw.openingDate == null ? '' : new
+                        Date(row.item.raw.openingDate).toLocaleDateString() }}</td>
                     <td class="text-right">
                         <v-icon size="small" class="me-2" @click="editItem(row.item.raw)">
                             mdi-pencil
