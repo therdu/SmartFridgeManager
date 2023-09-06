@@ -7,7 +7,7 @@
         </template> -->
         <v-card>
             <v-card-title class="pt-4">
-                <span class="text-h5">Add a new Item to your fridge:</span>
+                <span class="text-h5">Edit your item: </span>
             </v-card-title>
             <v-card-text>
                 <v-container>
