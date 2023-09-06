@@ -1,0 +1,57 @@
+### Test Data ###
+
+Basic Test Data:
+    Item 1: Name - Milk, Purchase Date - 2023-09-01, Best Before Date - 2023-09-10, Opening Date - 2023-09-02
+    Item 2: Name - Eggs, Purchase Date - 2023-09-03, Best Before Date - 2023-09-12, Opening Date - 2023-09-04
+    Item 3: Name - Apples, Purchase Date - 2023-09-05, Best Before Date - 2023-09-15, Opening Date - 2023-09-06
+
+Expired Items:
+    Item 1: Name - Yogurt, Purchase Date - 2023-08-25, Best Before Date - 2023-09-05, Opening Date - 2023-09-02
+    Item 2: Name - Bread, Purchase Date - 2023-08-30, Best Before Date - 2023-09-05, Opening Date - 2023-09-01
+
+Items with No Opening Date:
+    Item 1: Name - Cheese, Purchase Date - 2023-09-01, Best Before Date - 2023-09-20
+    Item 2: Name - Spinach, Purchase Date - 2023-09-02, Best Before Date - 2023-09-10
+
+Items with No Best Before Date:
+    Item 1: Name - Chicken, Purchase Date - 2023-09-04, Opening Date - 2023-09-05
+    Item 2: Name - Orange Juice, Purchase Date - 2023-09-07, Opening Date - 2023-09-08
+
+Items with No Best Before Date and Opening Date:
+    Item 1: Name - Milk, Purchase Date - 2023-09-01
+    Item 2: Name - Eggs, Purchase Date - 2023-09-03
+
+Items with Same Purchase and Best Before Dates:
+    Item 1: Name - Pasta, Purchase Date - 2023-09-10, Best Before Date - 2023-09-10, Opening Date - 2023-09-11
+    Item 2: Name - Ketchup, Purchase Date - 2023-09-15, Best Before Date - 2023-09-15, Opening Date - 2023-09-16
+
+
+### Test Cases ###
+
+Adding Items:
+
+    Test Case 1: Add a new item with valid data (name, purchase date, best before date, and optional opening date).
+    Test Case 2: Add an item with a best before date before the purchase date (not allowed).
+    Test Case 3: Add an item with missing mandatory fields: name or purchase date (not allowed).
+    Test Case 4: Add an item with a valid name and purchase date but without a best before date or opening date.
+
+Listing Items:
+
+    Test Case 5: List all items in the fridge.
+    Test Case 6: Sort items by their name, purchase date, best before date or opening date.
+
+Updating Items:
+
+    Test Case 7: Update an item's opening date.
+    Test Case 8: Update an item's name.
+    Test Case 9: Update an item's purchase date.
+    Test Case 10: Update an item's best before date.
+
+Item Expiry:
+
+    Test Case 11: Check if the application correctly identifies expired items (red text).
+    Test Case 12: Verify that items with no best before date are not flagged as expired.
+
+Item Deletion:
+
+    Test Case 13: Delete an item from the fridge.
