@@ -30,12 +30,12 @@ async function getItems() {
         item.bestBeforeDate == null ? null : (item.bestBeforeDate = new Date(item.bestBeforeDate).toISOString().slice(0, 10));
         item.openingDate == null ? null : (item.openingDate = new Date(item.openingDate).toISOString().slice(0, 10));
     })
-    console.log("Items sind neu geladen")
 }
 </script>
 
 <style scoped>
 .background {
-    background-color: lightblue
+    background-color: lightblue;
+    min-height: 100vh;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <v-card>
         <v-card-title>
-            <h2 class="m-2">Your current stock:</h2>
+            <h2 class="m-2">Your current stock: {{ items.length }} Items</h2>
         </v-card-title>
         <v-text-field v-model="search" label="Search Item" single-line hide-details class="mx-4"></v-text-field>
         <v-data-table items-per-page="10" :headers="headers" :items="items" item-value="name" class="elevation-0 p-2"
