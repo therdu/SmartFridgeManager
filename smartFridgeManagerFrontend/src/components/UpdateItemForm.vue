@@ -1,10 +1,10 @@
 <template>
     <v-dialog v-model="dialogIsOpen" persistent width="1024">
-        <template v-slot:activator="{ props }">
+        <!-- <template v-slot:activator="{ props }">
             <v-btn color="green" v-bind="props" class="m-4">
                 Add a new Item
             </v-btn>
-        </template>
+        </template> -->
         <v-card>
             <v-card-title class="pt-4">
                 <span class="text-h5">Add a new Item to your fridge:</span>
@@ -13,17 +13,18 @@
                 <v-container>
                     <v-row>
                         <v-col cols="12" sm="6">
-                            <v-combobox v-model="newItem.name" label="Name*" :items="allItemNames"></v-combobox>
+                            <v-combobox v-model="currentItem.name" label="Name*" :items="allItemNames"></v-combobox>
                         </v-col>
                         <v-col cols="12" sm="6">
-                            <v-text-field v-model="newItem.purchaseDate" label="Purchase Date*" type="date"></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6">
-                            <v-text-field v-model="newItem.bestBeforeDate" label="Best Before Date"
+                            <v-text-field v-model="currentItem.purchaseDate" label="Purchase Date*"
                                 type="date"></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6">
-                            <v-text-field v-model="newItem.openingDate" label="Opening Date" type="date"></v-text-field>
+                            <v-text-field v-model="currentItem.bestBeforeDate" label="Best Before Date"
+                                type="date"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                            <v-text-field v-model="currentItem.openingDate" label="Opening Date" type="date"></v-text-field>
                         </v-col>
                     </v-row>
                 </v-container>
@@ -31,10 +32,10 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="grey" variant="text" @click="dialogIsOpen = false">
+                <v-btn color="grey" variant="text" @click="emit('closeDialog')">
                     Close
                 </v-btn>
-                <v-btn color="primary" variant="text" @click="addItem" :disabled="saveItemIsDisabled">
+                <v-btn color="primary" variant="text" @click="updateItem(currentItem)" :disabled="saveItemIsDisabled">
                     Save
                 </v-btn>
             </v-card-actions>
@@ -48,31 +49,24 @@ import axios from "axios";
 import type { Item } from "./Item"
 
 const props = defineProps({
+    dialogIsOpen: Boolean,
+    currentItem: Object as PropType<Item>,
     items: Object as PropType<Item[]>
 })
 
-const { items } = toRefs(props);
+const { items, dialogIsOpen, currentItem } = toRefs(props);
 
-const emit = defineEmits(["getItems"])
+const emit = defineEmits(["getItems", "closeDialog"])
 
-const dialogIsOpen = ref<boolean>(false)
-
-const saveItemIsDisabled = computed(() => { return (!newItem.value.name || !newItem.value.purchaseDate) })
-
-const newItem = ref({ name: "", purchaseDate: new Date().toISOString().slice(0, 10), openingDate: null, bestBeforeDate: null })
-
-function addItem() {
-    sendItem()
-    newItem.value = { name: "", purchaseDate: new Date().toISOString().slice(0, 10), openingDate: null, bestBeforeDate: null }
-    dialogIsOpen.value = false
-    emit("getItems")
-}
+const saveItemIsDisabled = computed(() => { return (!currentItem.value.name || !currentItem.value.purchaseDate) })
 
 const allItemNames = computed(() => { return items.value.map((item: Item) => item.name) })
 
-async function sendItem() {
-    await axios.post("http://localhost:8080/items", newItem.value)
+async function updateItem(item: Item) {
+    await axios.put("http://localhost:8080/items/" + item.id, item)
         .catch(error => { console.error("error fetching data: ", error) }
         )
+    emit("closeDialog")
+    emit("getItems")
 }
 </script>

@@ -28,6 +28,8 @@
             </template>
         </v-data-table>
     </v-card>
+    <UpdateItemForm :dialogIsOpen="updateDialogIsOpen" :currentItem="currentItem" :items="items"
+        @getItems="emit('getItems')" @closeDialog="closeUpdateDialog" />
 </template>
 
 <script setup lang="ts">
@@ -35,6 +37,7 @@ import axios from "axios";
 import { ref, PropType, toRefs } from "vue";
 import type { Item } from "./Item";
 import { VDataTable } from 'vuetify/labs/VDataTable';
+import UpdateItemForm from "./UpdateItemForm.vue"
 
 const props = defineProps({
     items: Object as PropType<Item[]>
@@ -42,7 +45,7 @@ const props = defineProps({
 
 const { items } = toRefs(props);
 
-const emit = defineEmits()
+const emit = defineEmits(["getItems"])
 
 const search = ref<string>("")
 
@@ -57,22 +60,21 @@ const headers = ref<any>([
 const updateDialogIsOpen = ref<boolean>(false)
 const currentItem = ref<Item>()
 
-async function editItem(item: Item) {
+function editItem(item: Item) {
     updateDialogIsOpen.value = true;
     currentItem.value = item
-}
-
-async function updateItem(item: Item) {
-    await axios.put("http://localhost:8080/items/" + item.id, item)
-        .catch(error => { console.error("error fetching data: ", error) }
-        )
-    updateDialogIsOpen.value = false
 }
 
 async function deleteItem(item: Item) {
     await axios.delete("http://localhost:8080/items/" + item.id)
         .catch(error => { console.error("error fetching data: ", error) }
         )
+    emit("getItems")
+}
+
+function closeUpdateDialog() {
+    updateDialogIsOpen.value = false
+    emit("getItems")
 }
 </script>
 <style scoped>

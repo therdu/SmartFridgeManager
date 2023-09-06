@@ -24,6 +24,12 @@ async function getItems() {
         .then(response => { items.value = response.data })
         .catch(error => { console.error("error fetching data: ", error) }
         )
+    //parse all dates to correct format
+    items.value.forEach(item => {
+        item.purchaseDate == null ? null : (item.purchaseDate = new Date(item.purchaseDate).toISOString().slice(0, 10));
+        item.bestBeforeDate == null ? null : (item.bestBeforeDate = new Date(item.bestBeforeDate).toISOString().slice(0, 10));
+        item.openingDate == null ? null : (item.openingDate = new Date(item.openingDate).toISOString().slice(0, 10));
+    })
     console.log("Items sind neu geladen")
 }
 </script>
