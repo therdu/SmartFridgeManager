@@ -1,7 +1,7 @@
 <template>
     <v-card>
         <v-card-title>
-            <h2 class="m-2">Your current stock: {{ items.length }} Items</h2>
+            <h2 class="m-2">Your current stock: <br class="responsive" /> {{ items.length }} Items</h2>
         </v-card-title>
         <v-text-field v-model="search" label="Search Item" single-line hide-details class="mx-4"></v-text-field>
         <v-data-table items-per-page="10" :headers="headers" :items="items" item-value="name" class="elevation-0 p-2"
@@ -59,13 +59,16 @@ const headers = ref<any>([
 ])
 
 const updateDialogIsOpen = ref<boolean>(false)
+
 const currentItem = ref<Item>()
 
+// open dialog and set currentItem
 function editItem(item: Item) {
     updateDialogIsOpen.value = true;
     currentItem.value = item
 }
 
+// call backend to delete item and get updated list
 async function deleteItem(item: Item) {
     await axios.delete("http://localhost:8080/items/" + item.id)
         .catch(error => { console.error("error fetching data: ", error) }
@@ -73,17 +76,29 @@ async function deleteItem(item: Item) {
     emit("getItems")
 }
 
+// close update dialog and get updated list to prevent false entries after cancelling changes
 function closeUpdateDialog() {
     updateDialogIsOpen.value = false
     emit("getItems")
 }
 
+// check if the item's best before date is earlier than today or today
 function isExpired(date: string) {
-    return new Date() > new Date(date)
+    return new Date() >= new Date(date)
 }
 </script>
 <style scoped>
 .expired {
     color: red
+}
+
+br.responsive {
+    display: inline;
+}
+
+@media (min-width: 450px) {
+    br.responsive {
+        display: none;
+    }
 }
 </style>

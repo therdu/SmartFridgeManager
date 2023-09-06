@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, PropType, toRefs, defineEmits } from "vue";
+import { computed, PropType, toRefs, defineEmits } from "vue";
 import axios from "axios";
 import type { Item } from "./Item"
 
@@ -58,10 +58,13 @@ const { items, dialogIsOpen, currentItem } = toRefs(props);
 
 const emit = defineEmits(["getItems", "closeDialog"])
 
+// only update item when name and purchase date are set
 const saveItemIsDisabled = computed(() => { return (!currentItem.value.name || !currentItem.value.purchaseDate) })
 
+// get names for recommendation's list
 const allItemNames = computed(() => { return items.value.map((item: Item) => item.name) })
 
+// call put method and send emits to get all updated items and close dialog
 async function updateItem(item: Item) {
     await axios.put("http://localhost:8080/items/" + item.id, item)
         .catch(error => { console.error("error fetching data: ", error) }

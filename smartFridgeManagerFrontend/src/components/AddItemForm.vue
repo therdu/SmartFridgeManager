@@ -57,19 +57,23 @@ const emit = defineEmits(["getItems"])
 
 const dialogIsOpen = ref<boolean>(false)
 
-const saveItemIsDisabled = computed(() => { return (!newItem.value.name || !newItem.value.purchaseDate) })
-
 const newItem = ref({ name: "", purchaseDate: new Date().toISOString().slice(0, 10), openingDate: null, bestBeforeDate: null })
 
-function addItem() {
-    sendItem()
-    newItem.value = { name: "", purchaseDate: new Date().toISOString().slice(0, 10), openingDate: null, bestBeforeDate: null }
-    dialogIsOpen.value = false
-    emit("getItems")
-}
+//only save form when name and purchaseDate are set
+const saveItemIsDisabled = computed(() => { return (!newItem.value.name || !newItem.value.purchaseDate) })
 
+// get only the names for the recommendation's list
 const allItemNames = computed(() => { return items.value.map((item: Item) => item.name) })
 
+// call send new item to backend an reset form
+function addItem() {
+    sendItem()
+    emit("getItems")
+    newItem.value = { name: "", purchaseDate: new Date().toISOString().slice(0, 10), openingDate: null, bestBeforeDate: null }
+    dialogIsOpen.value = false
+}
+
+//send item to backend
 async function sendItem() {
     await axios.post("http://localhost:8080/items", newItem.value)
         .catch(error => { console.error("error fetching data: ", error) }

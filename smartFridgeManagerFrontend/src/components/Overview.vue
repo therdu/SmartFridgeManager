@@ -19,6 +19,7 @@ onMounted(() => {
 
 const items = ref<Item[]>([])
 
+// get all items from backend
 async function getItems() {
     await axios.get("http://localhost:8080/items")
         .then(response => { items.value = response.data })
