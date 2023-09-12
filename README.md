@@ -13,7 +13,7 @@ Before you start, ensure you have the following software installed on your devel
 
 Ensure the PostgreSQL database is up and running.
 
-Create the necessary database and tables if they don't exist. You can use tools like psql or a GUI tool like pgAdmin for this task.
+Create the necessary database (SmartFridgeManagerDB) and table (items). You can use tools like psql or a GUI tool like pgAdmin for this task.
 
 ## Backend Setup
 
